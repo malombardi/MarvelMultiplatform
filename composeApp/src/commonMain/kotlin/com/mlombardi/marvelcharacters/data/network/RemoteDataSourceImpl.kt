@@ -14,7 +14,7 @@ import io.ktor.client.request.parameter
 
 class RemoteDataSourceImpl(val client: HttpClient) : RemoteDataSource {
 
-    override suspend fun getCharacters(offset: Int?): List<MarvelCharacter> {
+    override suspend fun getCharacters(offset: Int): List<MarvelCharacter> {
         return safeCall<MarvelCharacterResponse> {
             client.get(
                 urlString = "$BASE_URL/characters"

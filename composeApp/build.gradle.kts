@@ -67,6 +67,44 @@ kotlin {
         schemaDirectory("$projectDir/schemas")
     }
 
+    configurations.all {
+        resolutionStrategy {
+            // Compose UI Core
+            force("androidx.compose.ui:ui:1.7.4")
+            force("androidx.compose.ui:ui-android:1.7.4")
+            force("androidx.compose.ui:ui-text:1.7.4")
+            force("androidx.compose.ui:ui-text-android:1.7.4")
+            force("androidx.compose.ui:ui-graphics:1.7.4")
+            force("androidx.compose.ui:ui-graphics-android:1.7.4")
+            force("androidx.compose.ui:ui-tooling:1.7.4")
+            force("androidx.compose.ui:ui-tooling-android:1.7.4")
+            force("androidx.compose.ui:ui-tooling-data:1.7.4")
+            force("androidx.compose.ui:ui-tooling-data-android:1.7.4")
+
+            // Compose Runtime
+            force("androidx.compose.runtime:runtime:1.7.4")
+            force("androidx.compose.runtime:runtime-saveable:1.7.4")
+            force("androidx.compose.runtime:runtime-saveable-android:1.7.4")
+
+            // Compose Foundation & Animation
+            force("androidx.compose.foundation:foundation:1.7.4")
+            force("androidx.compose.foundation:foundation-android:1.7.4")
+            force("androidx.compose.foundation:foundation-layout-android:1.7.4")
+            force("androidx.compose.animation:animation:1.7.4")
+            force("androidx.compose.animation:animation-core:1.7.4")
+            force("androidx.compose.animation:animation-core-android:1.7.4")
+
+            // Material
+            force("androidx.compose.material3:material3:1.2.1")
+
+            // Lifecycle Compose (keep en 2.8.x for SDK 34)
+            force("androidx.lifecycle:lifecycle-runtime-compose:2.8.3")
+            force("androidx.lifecycle:lifecycle-runtime-compose-android:2.8.3")
+            force("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
+            force("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.3")
+        }
+    }
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
