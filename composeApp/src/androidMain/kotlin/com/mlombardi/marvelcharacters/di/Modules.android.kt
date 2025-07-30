@@ -1,7 +1,9 @@
 package com.mlombardi.marvelcharacters.di
 
-import com.mlombardi.marvelcharacters.data.RepositoryImpl
-import com.mlombardi.marvelcharacters.domain.repository.Repository
+import com.mlombardi.marvelcharacters.characters_list.data.CharactersRepositoryImpl
+import com.mlombardi.marvelcharacters.characters_list.domain.repository.CharactersRepository
+import com.mlombardi.marvelcharacters.comics_list.data.ComicsRepositoryImpl
+import com.mlombardi.marvelcharacters.comics_list.domain.repository.ComicsRepository
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
 import org.koin.core.module.Module
@@ -12,5 +14,6 @@ import org.koin.dsl.module
 actual val platformModule: Module
     get() = module {
         single<HttpClientEngine> { OkHttp.create() }
-        singleOf(::RepositoryImpl).bind<Repository>()
+        singleOf(::CharactersRepositoryImpl).bind<CharactersRepository>()
+        singleOf(::ComicsRepositoryImpl).bind<ComicsRepository>()
     }
