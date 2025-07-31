@@ -1,20 +1,21 @@
 package com.mlombardi.marvelcharacters.characters_list.data.network.responses
 
-import com.mlombardi.marvelcharacters.core.domain.Constants.UNKNOWN_ID
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MarvelCharacter(
     val description: String? = "",
-    val id: Int? = UNKNOWN_ID,
+    val id: Int,
     val name: String? = "",
     val thumbnail: Thumbnail? = null,
     val urls: List<Url>? = null,
 )
-
+@Serializable
 data class Thumbnail(
     val extension: String?,
     val path: String?
 )
-
+@Serializable
 data class Url(
     val type: String?,
     val url: String?

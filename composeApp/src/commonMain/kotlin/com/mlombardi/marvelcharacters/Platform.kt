@@ -1,7 +1,5 @@
 package com.mlombardi.marvelcharacters
 
-interface Platform {
-    val name: String
-}
+import kotlinx.coroutines.CoroutineDispatcher
 
-expect fun getPlatform(): Platform
+expect val IODispatcher: CoroutineDispatcher

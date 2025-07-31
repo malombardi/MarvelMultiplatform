@@ -30,8 +30,16 @@ buildkonfig {
         val privateKey = localProperties.getProperty("private_key") ?: "private_key"
         val publicKey = localProperties.getProperty("public_key") ?: "public_key"
 
-        buildConfigField(com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING, "private_key", "\"$privateKey\"")
-        buildConfigField(com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING, "public_key", "\"$publicKey\"")
+        buildConfigField(
+            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            "private_key",
+            privateKey
+        )
+        buildConfigField(
+            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            "public_key",
+            publicKey
+        )
     }
 }
 kotlin {
@@ -109,15 +117,12 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.room.runtime)
             implementation(libs.sqlite.bundled)
-
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.jetbrains.compose.navigation)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -125,18 +130,17 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(libs.jetbrains.compose.navigation)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
-
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.okio)
             api(libs.koin.core)
-
             implementation(libs.bundles.ktor)
+            implementation(libs.coil3)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

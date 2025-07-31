@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MarvelCharacter(
     val description: String? = "",
-    val id: Int? = Constants.UNKNOWN_ID,
+    val id: Int = Constants.UNKNOWN_ID,
     val name: String? = "",
     val thumbnail: String? = null,
     val url: String? = null,

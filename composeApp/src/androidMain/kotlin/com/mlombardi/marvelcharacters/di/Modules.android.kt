@@ -1,6 +1,8 @@
 package com.mlombardi.marvelcharacters.di
 
 import com.mlombardi.marvelcharacters.characters_list.data.CharactersRepositoryImpl
+import com.mlombardi.marvelcharacters.characters_list.data.LocalCharactersDatasourceImp
+import com.mlombardi.marvelcharacters.characters_list.domain.datasources.LocalCharactersDataSource
 import com.mlombardi.marvelcharacters.characters_list.domain.repository.CharactersRepository
 import com.mlombardi.marvelcharacters.comics_list.data.ComicsRepositoryImpl
 import com.mlombardi.marvelcharacters.comics_list.domain.repository.ComicsRepository
@@ -16,4 +18,5 @@ actual val platformModule: Module
         single<HttpClientEngine> { OkHttp.create() }
         singleOf(::CharactersRepositoryImpl).bind<CharactersRepository>()
         singleOf(::ComicsRepositoryImpl).bind<ComicsRepository>()
+        singleOf(::LocalCharactersDatasourceImp).bind<LocalCharactersDataSource>()
     }

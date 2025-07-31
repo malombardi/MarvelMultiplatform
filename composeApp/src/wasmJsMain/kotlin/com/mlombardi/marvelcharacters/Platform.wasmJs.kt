@@ -1,7 +1,7 @@
 package com.mlombardi.marvelcharacters
 
-class WasmPlatform: Platform {
-    override val name: String = "Web with Kotlin/Wasm"
-}
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-actual fun getPlatform(): Platform = WasmPlatform()
+actual val IODispatcher: CoroutineDispatcher
+    get() = Dispatchers.Default
