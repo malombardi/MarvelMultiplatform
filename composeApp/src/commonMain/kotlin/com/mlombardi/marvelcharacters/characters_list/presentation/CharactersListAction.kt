@@ -4,4 +4,5 @@ import com.mlombardi.marvelcharacters.characters_list.domain.models.MarvelCharac
 
 sealed interface CharactersListAction {
     data class OnCharacterClicked (val character: MarvelCharacter) : CharactersListAction
+    data class OnListScrolled (val lastItemVisibleIndex: Int) : CharactersListAction
 }

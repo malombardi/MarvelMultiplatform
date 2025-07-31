@@ -22,25 +22,37 @@ class CharacterListViewModel(private val getCharactersUseCase: GetCharactersUseC
     val state = _state.asStateFlow()
 
     init {
-        getCharacters()
+        getCharacters(state.value.lastVisible)
     }
 
-    fun OnAction(action: CharactersListAction) {
-        _state.update {
-            it.copy(isLoading = true)
+    fun onAction(action: CharactersListAction) {
+        when (action) {
+            is CharactersListAction.OnCharacterClicked -> {
+                getDetails((action).character)
+            }
+
+            is CharactersListAction.OnListScrolled -> {
+                _state.update {
+                    it.copy(
+                        lastVisible = action.lastItemVisibleIndex
+                    )
+                }
+                if (!state.value.isLoading) {
+                    getCharacters(action.lastItemVisibleIndex)
+                }
+            }
         }
-        getDetails((action as CharactersListAction.OnCharacterClicked).character)
     }
 
-    private fun getCharacters() {
+    private fun getCharacters(offset: Int) {
         _state.update {
             it.copy(
                 isLoading = true
             )
         }
-        val charactersList: ArrayList<MarvelCharacter> = arrayListOf()
+
         subscribeFlow(
-            getCharactersUseCase.invoke(0)
+            getCharactersUseCase.invoke(offset)
                 .onEach { result ->
                     when (result) {
                         is ResponseWrapper.Error -> {
@@ -53,10 +65,11 @@ class CharacterListViewModel(private val getCharactersUseCase: GetCharactersUseC
                         }
 
                         is ResponseWrapper.Success -> {
-                            charactersList.addAll(result.data as List)
-                            _state.update {
-                                it.copy(
-                                    results = charactersList,
+                            _state.update { state ->
+                                val combined =
+                                    state.results + (result.data as List<MarvelCharacter>).distinctBy { it.name }
+                                state.copy(
+                                    results = combined,
                                     isLoading = false
                                 )
                             }
