@@ -8,7 +8,8 @@ import com.mlombardi.marvelcharacters.core.domain.Constants.URL_BIO_TYPE
 fun MarvelCharacterResponse.toDomainCharacterList(): List<MarvelCharacter> {
     return data.results.map {
         val img = if (it.thumbnail != null) {
-            it.thumbnail.path + "/" + IMAGE_DEFAULT_SIZE + "." + it.thumbnail.extension
+            (it.thumbnail.path + "/" + IMAGE_DEFAULT_SIZE + "." + it.thumbnail.extension)
+                .replace("http://", "https://")
         } else {
             ""
         }

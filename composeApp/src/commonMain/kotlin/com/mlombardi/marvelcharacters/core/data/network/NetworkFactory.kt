@@ -33,7 +33,6 @@ class NetworkFactory {
             options[API_KEY] = BuildKonfig.public_key
             options[HASH_KEY] = generateHash(ts.toString() + BuildKonfig.private_key + BuildKonfig.public_key)
             options[OFFSET_KEY] = offset.toString()
-            options["orderBy"] = "-name"
 
             return options
         }

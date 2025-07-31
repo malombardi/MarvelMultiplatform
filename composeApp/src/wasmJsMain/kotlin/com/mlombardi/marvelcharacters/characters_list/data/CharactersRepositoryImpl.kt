@@ -10,15 +10,11 @@ import kotlinx.coroutines.launch
 
 class CharactersRepositoryImpl(private val remoteCharactersDataSource: RemoteCharactersDataSource) :
     CharactersRepository {
-    override fun getCharacters(offset: Int?): Flow<List<MarvelCharacter>> {
-        var result: List<MarvelCharacter> = listOf()
+    override fun getCharacters(offset: Int?): Flow<List<MarvelCharacter>> = flow {
         val lastVisible = offset ?: 0
-        MainScope().launch {
-            result = remoteCharactersDataSource.getCharacters(lastVisible)
-        }
-        return flow { emit(result) }
+        val characters = remoteCharactersDataSource.getCharacters(lastVisible)  // suspend
+        emit(characters)
     }
-
     override fun searchCharacters(
         startWith: String,
         offset: Int?

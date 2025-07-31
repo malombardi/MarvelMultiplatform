@@ -76,6 +76,7 @@ fun CharacterListItemView(
                     var imageLoadResult by remember {
                         mutableStateOf<Result<Painter>?>(null)
                     }
+
                     val painter = rememberAsyncImagePainter(
                         model = character.thumbnail,
                         onSuccess = {

@@ -114,6 +114,9 @@ kotlin {
     }
 
     sourceSets {
+        wasmJsMain.dependencies {
+            implementation(libs.coil3NetworkWasm)
+        }
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -123,6 +126,7 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.sqlite.bundled)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.coil3NetworkAnd)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -141,6 +145,8 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.bundles.ktor)
             implementation(libs.coil3)
+            implementation(libs.coil3Core)
+            implementation(libs.coil3Compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
