@@ -1,5 +1,9 @@
 package com.mlombardi.marvelcharacters.app
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.MaterialTheme
@@ -29,8 +33,8 @@ fun App() {
         NavHost(navController, startDestination = Route.CHARACTERS_LIST.name) {
             composable(
                 Route.CHARACTERS_LIST.name,
-                exitTransition = { slideOutHorizontally() },
-                popEnterTransition = { slideInHorizontally() }) {
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() }) {
                 val viewModel = koinViewModel<CharacterListViewModel>()
                 val selectedCharacterViewModel =
                     it.sharedKoinViewModel<SelectedCharacterViewModel>(navController)
@@ -49,8 +53,8 @@ fun App() {
             }
             composable(
                 Route.CHARACTER_DETAILS.name,
-                exitTransition = { slideOutHorizontally() },
-                popEnterTransition = { slideInHorizontally() }) { it ->
+                exitTransition = { fadeOut() },
+                popEnterTransition = { fadeIn() }) { it ->
                 val selectedCharacterViewModel =
                     it.sharedKoinViewModel<SelectedCharacterViewModel>(navController)
                 val viewModel = koinViewModel<CharacterDetailViewModel>()

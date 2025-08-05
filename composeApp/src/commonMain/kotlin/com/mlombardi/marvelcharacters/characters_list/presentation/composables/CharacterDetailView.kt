@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -35,7 +36,7 @@ import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import com.mlombardi.marvelcharacters.characters_list.domain.models.MarvelCharacter
 import com.mlombardi.marvelcharacters.core.presentation.Black
-import com.mlombardi.marvelcharacters.core.presentation.Red500
+import com.mlombardi.marvelcharacters.core.presentation.Black70
 import com.mlombardi.marvelcharacters.core.presentation.composables.PulseAnimation
 import marvelcharacters.composeapp.generated.resources.Res
 import marvelcharacters.composeapp.generated.resources.not_available
@@ -49,7 +50,7 @@ fun CharacterDetailView(
 ) {
 
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         content = {
@@ -59,11 +60,11 @@ fun CharacterDetailView(
                     modifier = Modifier.clickable(
                         onClick = onCloseClicked
                     ),
-                    color = Red500.copy(alpha = 0.2f)
+                    color = Black70.copy(alpha = 0.2f)
                 ) {
                     Row(
                         modifier = Modifier.padding(16.dp)
-                            .fillMaxWidth()
+                            .width(400.dp)
                             .height(IntrinsicSize.Min)
                     )
                     {
@@ -77,7 +78,7 @@ fun CharacterDetailView(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .height(100.dp),
+                                    .height(300.dp),
                                 contentAlignment = Alignment.Center
                             ) {
                                 var imageLoadResult by remember {
@@ -112,7 +113,7 @@ fun CharacterDetailView(
 
                                 when (val result = imageLoadResult) {
                                     null -> PulseAnimation(
-                                        modifier = Modifier.size(60.dp)
+                                        modifier = Modifier.size(120.dp)
                                     )
 
                                     else -> {
@@ -143,9 +144,15 @@ fun CharacterDetailView(
                             }
                             Text(
                                 text = character.name ?: "",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.titleLarge,
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
+                                color = Black
+                            )
+
+                            Text(
+                                text = character.description ?: "",
+                                style = MaterialTheme.typography.bodyLarge,
                                 color = Black
                             )
                         }
