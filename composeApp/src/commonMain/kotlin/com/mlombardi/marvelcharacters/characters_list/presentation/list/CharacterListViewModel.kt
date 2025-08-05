@@ -1,4 +1,4 @@
-package com.mlombardi.marvelcharacters.characters_list.presentation
+package com.mlombardi.marvelcharacters.characters_list.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,7 +28,6 @@ class CharacterListViewModel(private val getCharactersUseCase: GetCharactersUseC
     fun onAction(action: CharactersListAction) {
         when (action) {
             is CharactersListAction.OnCharacterClicked -> {
-                getDetails((action).character)
             }
 
             is CharactersListAction.OnListScrolled -> {
@@ -84,12 +83,5 @@ class CharacterListViewModel(private val getCharactersUseCase: GetCharactersUseC
         }.onCompletion {
         }.flowOn(IODispatcher)
             .launchIn(viewModelScope)
-    }
-
-    private fun getDetails(marvelCharacter: MarvelCharacter) {
-        //after getting the info just put loading false
-        _state.update {
-            it.copy(isLoading = false)
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.mlombardi.marvelcharacters.characters_list.presentation
+package com.mlombardi.marvelcharacters.characters_list.presentation.list
 
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -36,7 +36,7 @@ fun CharacterListScreenRoot(
         onAction = { action ->
             when (action) {
                 is CharactersListAction.OnCharacterClicked -> {
-                    CharactersListAction.OnCharacterClicked(action.character)
+                    onCharacterClicked(action.character)
                 }
                 else -> Unit
             }
@@ -53,7 +53,8 @@ private fun CharacterListScreen(
 ) {
     CharacterListView(
         characters = state.results,
-        onCharacterClicked = { onAction(CharactersListAction.OnCharacterClicked(it)) },
+        onCharacterClicked = {
+            onAction(CharactersListAction.OnCharacterClicked(it)) },
         scrollState = scrollState
     )
 }

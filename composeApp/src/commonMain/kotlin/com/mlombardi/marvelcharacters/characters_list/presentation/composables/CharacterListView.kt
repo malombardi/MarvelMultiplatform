@@ -39,7 +39,8 @@ fun CharacterListView(
                 CharacterListItemView(
                     character = characters[index],
                     modifier = Modifier.padding(16.dp),
-                    onClick = { onCharacterClicked(characters[index]) }
+                    onClick = {
+                        onCharacterClicked(characters[index]) }
                 )
                 }
             }

@@ -4,7 +4,9 @@ import com.mlombardi.marvelcharacters.IODispatcher
 import com.mlombardi.marvelcharacters.characters_list.data.network.RemoteCharactersDataSourceImpl
 import com.mlombardi.marvelcharacters.characters_list.domain.datasources.RemoteCharactersDataSource
 import com.mlombardi.marvelcharacters.characters_list.domain.usecases.GetCharactersUseCase
-import com.mlombardi.marvelcharacters.characters_list.presentation.CharacterListViewModel
+import com.mlombardi.marvelcharacters.characters_list.presentation.SelectedCharacterViewModel
+import com.mlombardi.marvelcharacters.characters_list.presentation.detail.CharacterDetailViewModel
+import com.mlombardi.marvelcharacters.characters_list.presentation.list.CharacterListViewModel
 import com.mlombardi.marvelcharacters.comics_list.data.network.RemoteComicsDataSourceImpl
 import com.mlombardi.marvelcharacters.comics_list.domain.datasources.RemoteComicsDataSource
 import com.mlombardi.marvelcharacters.core.data.errors.ErrorHandler
@@ -26,4 +28,6 @@ val sharedModule = module {
     single<IErrorHandler> { ErrorHandler() }
     factory { GetCharactersUseCase(get(), get(), get()) }
     single { CharacterListViewModel(get()) }
+    single { CharacterDetailViewModel() }
+    single { SelectedCharacterViewModel() }
 }

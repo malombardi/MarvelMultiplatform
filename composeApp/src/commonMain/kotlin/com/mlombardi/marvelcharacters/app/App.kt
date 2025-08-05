@@ -4,41 +4,74 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.mlombardi.marvelcharacters.characters_list.presentation.CharacterListScreenRoot
-import com.mlombardi.marvelcharacters.characters_list.presentation.CharacterListViewModel
+import com.mlombardi.marvelcharacters.characters_list.presentation.SelectedCharacterViewModel
+import com.mlombardi.marvelcharacters.characters_list.presentation.detail.CharacterDetailScreenRoot
+import com.mlombardi.marvelcharacters.characters_list.presentation.detail.CharacterDetailViewModel
+import com.mlombardi.marvelcharacters.characters_list.presentation.list.CharacterListScreenRoot
+import com.mlombardi.marvelcharacters.characters_list.presentation.list.CharacterListViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun App() {
     MaterialTheme {
-        val viewModel = koinViewModel<CharacterListViewModel>()
-        /*val selectedBookViewModel =
-            it.sharedKoinViewModel<SelectedBookViewModel>(navController)
+        val navController = rememberNavController()
 
-        LaunchedEffect(true) {
-            selectedBookViewModel.onSelectBook(null)
-        }
-*/
-        CharacterListScreenRoot(
-            viewModel = viewModel,
-            onCharacterClicked = { character ->
-                {}
-                /* selectedBookViewModel.onSelectBook(book)
-                 navController.navigate(
-                     Route.BookDetail(book.id)
-                 )
-                 */
+        NavHost(navController, startDestination = Route.CHARACTERS_LIST.name) {
+            composable(
+                Route.CHARACTERS_LIST.name,
+                exitTransition = { slideOutHorizontally() },
+                popEnterTransition = { slideInHorizontally() }) {
+                val viewModel = koinViewModel<CharacterListViewModel>()
+                val selectedCharacterViewModel =
+                    it.sharedKoinViewModel<SelectedCharacterViewModel>(navController)
+
+                LaunchedEffect(true) {
+                    selectedCharacterViewModel.onSelectCharacter(null)
+                }
+
+                CharacterListScreenRoot(
+                    viewModel = viewModel,
+                    onCharacterClicked = { character ->
+                        selectedCharacterViewModel.onSelectCharacter(character)
+                        navController.navigate(Route.CHARACTER_DETAILS.name)
+                    }
+                )
             }
-        )
+            composable(
+                Route.CHARACTER_DETAILS.name,
+                exitTransition = { slideOutHorizontally() },
+                popEnterTransition = { slideInHorizontally() }) { it ->
+                val selectedCharacterViewModel =
+                    it.sharedKoinViewModel<SelectedCharacterViewModel>(navController)
+                val viewModel = koinViewModel<CharacterDetailViewModel>()
+                val selectedCharacter by selectedCharacterViewModel.selectedCharacter.collectAsStateWithLifecycle()
 
+                LaunchedEffect(selectedCharacter) {
+                    selectedCharacter?.let { character ->
+                        viewModel.selectCharacter(character)
+                    }
+                }
+
+                CharacterDetailScreenRoot(
+                    viewModel = viewModel,
+                    onCloseClicked = {
+                        selectedCharacterViewModel.onSelectCharacter(null)
+                        navController.navigate(Route.CHARACTERS_LIST.name)
+                    },
+                )
+
+            }
+        }
     }
 }
 

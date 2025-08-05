@@ -1,4 +1,4 @@
-package com.mlombardi.marvelcharacters.characters_list.presentation
+package com.mlombardi.marvelcharacters.characters_list.presentation.list
 
 import com.mlombardi.marvelcharacters.characters_list.domain.models.MarvelCharacter
 import com.mlombardi.marvelcharacters.core.presentation.UiText
