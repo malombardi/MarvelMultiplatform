@@ -35,7 +35,7 @@ class ComicsRepositoryImpl(
             val offset = if (lastVisible == 0) 0 else {
                 (size / PAGE_SIZE) * PAGE_SIZE
             }
-            val newCharacters = withTimeout(5_000) { remoteComicsDataSource.getComics(offset) }
+            val newCharacters = withTimeout(10_000) { remoteComicsDataSource.getComics(offset) }
             localComicsDataSource.saveComics(newCharacters)
         }
     }

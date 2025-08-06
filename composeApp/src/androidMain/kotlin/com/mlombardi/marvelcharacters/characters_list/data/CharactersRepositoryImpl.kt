@@ -38,7 +38,7 @@ class CharactersRepositoryImpl(
                 (size / PAGE_SIZE) * PAGE_SIZE
             }
             val newCharacters =
-                withTimeout(5_000) { remoteCharactersDataSource.getCharacters(offset) }
+                withTimeout(10_000) { remoteCharactersDataSource.getCharacters(offset) }
             localCharactersDataSource.saveCharacters(newCharacters)
         }
     }

@@ -1,5 +1,6 @@
 package com.mlombardi.marvelcharacters.characters_list.presentation.composables
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,15 +37,15 @@ fun CharacterListView(
         }
 
         LazyVerticalGrid(
-            modifier = modifier,
             state = scrollState,
-            columns = GridCells.Fixed(3),
+            columns = GridCells.Adaptive(150.dp),
             contentPadding = PaddingValues(
                 start = 16.dp,
                 top = 0.dp,
                 end = 16.dp,
                 bottom = 16.dp
             ),
+            horizontalArrangement = Arrangement.Center,
             content = {
                 items(characters.size) { index ->
                     Card(
