@@ -52,14 +52,12 @@ class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : ViewM
                 isLoading = true
             )
         }
-        println("get comics")
 
         subscribeFlow(
             getComicsUseCase.invoke(offset)
                 .onEach { result ->
                     when (result) {
                         is ResponseWrapper.Error -> {
-                            println("error")
                             _state.update {
                                 it.copy(
                                     errorMessage = UiText.DynamicString(result.error.toString()),
@@ -70,7 +68,6 @@ class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : ViewM
 
                         is ResponseWrapper.Success -> {
                             _state.update { state ->
-                                println("EL RESULTADO!!!!${result.data}")
                                 val combined =
                                     state.results + (result.data as List<MarvelComic>).distinctBy { it.title }
                                 state.copy(

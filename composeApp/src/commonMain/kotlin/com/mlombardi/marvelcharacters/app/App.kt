@@ -87,7 +87,6 @@ fun App() {
                 exitTransition = {fadeOut()},
                 enterTransition = {fadeIn()}) { it->
 
-                println("comics composable")
                 val viewModel = koinViewModel<ComicListViewModel>()
                 val selectedComicViewModel =
                     it.sharedKoinViewModel<SelectedComicViewModel>(navController)

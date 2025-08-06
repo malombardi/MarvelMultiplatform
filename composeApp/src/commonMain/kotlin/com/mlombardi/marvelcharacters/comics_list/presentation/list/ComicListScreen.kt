@@ -1,13 +1,10 @@
 package com.mlombardi.marvelcharacters.comics_list.presentation.list
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -50,7 +47,8 @@ fun ComicListScreenRoot(
                 is ComicsListAction.OnComicClicked -> {
                     onComicClicked(action.comic)
                 }
-                is ComicsListAction.OnGoToCharactersClicked ->{
+
+                is ComicsListAction.OnGoToCharactersClicked -> {
                     onGoToCharactersClicked()
                 }
 
@@ -67,25 +65,24 @@ private fun ComicListScreen(
     scrollState: LazyGridState,
     onAction: (ComicsListAction) -> Unit,
 ) {
-    println("COMICLISTSCREEN $state")
-    if (state.isLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            PulseAnimation(modifier = Modifier.size(500.dp))
-        }
-    } else {
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         ComicListView(
             comics = state.results,
             onComicClicked = {
                 onAction(ComicsListAction.OnComicClicked(it))
             },
             onGoToCharactersClicked = {
-               onAction(ComicsListAction.OnGoToCharactersClicked)
+                onAction(ComicsListAction.OnGoToCharactersClicked)
             },
             scrollState = scrollState
         )
+        if (state.isLoading) {
+            PulseAnimation(modifier = Modifier.size(500.dp))
+        }
     }
+
 }

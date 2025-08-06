@@ -137,7 +137,7 @@ fun CharacterListItemView(
                 Text(
                     text = character.name ?: "",
                     style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = Black
                 )

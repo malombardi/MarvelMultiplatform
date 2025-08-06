@@ -137,7 +137,7 @@ fun ComicListItemView(
                 Text(
                     text = comic.title ?: "",
                     style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = Black
                 )
