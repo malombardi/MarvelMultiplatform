@@ -1,23 +1,16 @@
 package com.mlombardi.marvelcharacters.comics_list.presentation.list
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.mlombardi.marvelcharacters.IODispatcher
 import com.mlombardi.marvelcharacters.comics_list.domain.models.MarvelComic
 import com.mlombardi.marvelcharacters.comics_list.domain.usecases.GetComicsUseCase
 import com.mlombardi.marvelcharacters.core.domain.ResponseWrapper
+import com.mlombardi.marvelcharacters.core.presentation.MarvelViewModel
 import com.mlombardi.marvelcharacters.core.presentation.UiText
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 
-class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : ViewModel() {
+class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : MarvelViewModel() {
     private val _state = MutableStateFlow(ComicsListState())
     val state = _state.asStateFlow()
 
@@ -39,7 +32,7 @@ class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : ViewM
                         lastVisible = action.lastItemVisibleIndex
                     )
                 }
-                if (!state.value.isLoading) {
+                if (!state.value.isLoading && state.value.results.isNotEmpty()) {
                     getComics(action.lastItemVisibleIndex)
                 }
             }
@@ -69,22 +62,15 @@ class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : ViewM
                         is ResponseWrapper.Success -> {
                             _state.update { state ->
                                 val combined =
-                                    state.results + (result.data as List<MarvelComic>).distinctBy { it.title }
+                                    (state.results + (result.data as List<MarvelComic>)).distinctBy { it.title }
                                 state.copy(
                                     results = combined,
-                                    isLoading = false
+                                    isLoading = combined.isEmpty()
                                 )
                             }
                         }
                     }
                 }
         )
-    }
-
-    fun <T> subscribeFlow(flow: Flow<T>) {
-        flow.onStart {
-        }.onCompletion {
-        }.flowOn(IODispatcher)
-            .launchIn(viewModelScope)
     }
 }

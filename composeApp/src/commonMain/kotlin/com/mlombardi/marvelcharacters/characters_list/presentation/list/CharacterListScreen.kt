@@ -80,7 +80,7 @@ private fun CharacterListScreen(
             scrollState = scrollState
         )
         if (state.isLoading) {
-            PulseAnimation(modifier = Modifier.size(500.dp))
+            PulseAnimation(modifier = Modifier.size(100.dp))
         }
     }
 }

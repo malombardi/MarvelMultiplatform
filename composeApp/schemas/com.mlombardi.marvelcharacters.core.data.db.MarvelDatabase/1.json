@@ -1,0 +1,83 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "25aa3d386b4219355c4e3c4cb1600e80",
+    "entities": [
+      {
+        "tableName": "MarvelCharacterEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`character_id` INTEGER NOT NULL, `name` TEXT, `description` TEXT, `thumbnail` TEXT, PRIMARY KEY(`character_id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "character_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "thumbnail",
+            "columnName": "thumbnail",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "character_id"
+          ]
+        }
+      },
+      {
+        "tableName": "MarvelComicEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`comic_id` INTEGER, `digitalId` INTEGER, `description` TEXT, `thumbnail` TEXT, `title` TEXT, PRIMARY KEY(`comic_id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "comic_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "digitalId",
+            "columnName": "digitalId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "thumbnail",
+            "columnName": "thumbnail",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "comic_id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '25aa3d386b4219355c4e3c4cb1600e80')"
+    ]
+  }
+}

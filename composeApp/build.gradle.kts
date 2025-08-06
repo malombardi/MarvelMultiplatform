@@ -124,6 +124,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.room.ktx)
             implementation(libs.sqlite.bundled)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.coil3NetworkAnd)

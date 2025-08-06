@@ -35,7 +35,7 @@ fun App() {
     MaterialTheme {
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = Route.COMICS_LIST.name) {
+        NavHost(navController, startDestination = Route.CHARACTERS_LIST.name) {
             composable(
                 Route.CHARACTERS_LIST.name,
                 exitTransition = { fadeOut() },

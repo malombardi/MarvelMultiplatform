@@ -12,20 +12,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 
 class RemoteComicsDataSourceImpl(val client: HttpClient) : RemoteComicsDataSource {
-    override suspend fun getComicsForCharacter(
-        characterId: String,
-        offset: Int
-    ): List<MarvelComic> {
-        return safeCall<MarvelComicResponse> {
-            client.get(
-                urlString = "$BASE_URL/characters/$characterId/comics"
-            ) {
-                NetworkFactory.Companion.getNetworkOptions(offset, true).forEach { (key, value) ->
-                    parameter(key, value)
-                }
-            }
-        }.data!!.toDomainComicList()
-    }
 
     override suspend fun getComics(offset: Int): List<MarvelComic> {
         return safeCall<MarvelComicResponse> {
