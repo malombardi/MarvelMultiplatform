@@ -32,7 +32,7 @@ class RemoteComicsDataSourceImpl(val client: HttpClient) : RemoteComicsDataSourc
             client.get(
                 urlString = "$BASE_URL/comics"
             ) {
-                NetworkFactory.Companion.getNetworkOptions(offset, true).forEach { (key, value) ->
+                NetworkFactory.Companion.getNetworkOptions(offset, false).forEach { (key, value) ->
                     parameter(key, value)
                 }
             }

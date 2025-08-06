@@ -1,10 +1,10 @@
-package com.mlombardi.marvelcharacters.characters_list.presentation.list
+package com.mlombardi.marvelcharacters.comics_list.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mlombardi.marvelcharacters.IODispatcher
-import com.mlombardi.marvelcharacters.characters_list.domain.models.MarvelCharacter
-import com.mlombardi.marvelcharacters.characters_list.domain.usecases.GetCharactersUseCase
+import com.mlombardi.marvelcharacters.comics_list.domain.models.MarvelComic
+import com.mlombardi.marvelcharacters.comics_list.domain.usecases.GetComicsUseCase
 import com.mlombardi.marvelcharacters.core.domain.ResponseWrapper
 import com.mlombardi.marvelcharacters.core.presentation.UiText
 import kotlinx.coroutines.flow.Flow
@@ -17,47 +17,49 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 
-class CharacterListViewModel(private val getCharactersUseCase: GetCharactersUseCase) : ViewModel() {
-    private val _state = MutableStateFlow(CharactersListState())
+class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : ViewModel() {
+    private val _state = MutableStateFlow(ComicsListState())
     val state = _state.asStateFlow()
 
     init {
-        getCharacters(state.value.lastVisible)
+        getComics(state.value.lastVisible)
     }
 
-    fun onAction(action: CharactersListAction) {
+    fun onAction(action: ComicsListAction) {
         when (action) {
-            is CharactersListAction.OnCharacterClicked -> {
+            is ComicsListAction.OnComicClicked -> {
             }
 
-            is CharactersListAction.OnGoToComicsClicked -> {
+            is ComicsListAction.OnGoToCharactersClicked -> {
             }
 
-            is CharactersListAction.OnListScrolled -> {
+            is ComicsListAction.OnListScrolled -> {
                 _state.update {
                     it.copy(
                         lastVisible = action.lastItemVisibleIndex
                     )
                 }
                 if (!state.value.isLoading) {
-                    getCharacters(action.lastItemVisibleIndex)
+                    getComics(action.lastItemVisibleIndex)
                 }
             }
         }
     }
 
-    private fun getCharacters(offset: Int) {
+    private fun getComics(offset: Int) {
         _state.update {
             it.copy(
                 isLoading = true
             )
         }
+        println("get comics")
 
         subscribeFlow(
-            getCharactersUseCase.invoke(offset)
+            getComicsUseCase.invoke(offset)
                 .onEach { result ->
                     when (result) {
                         is ResponseWrapper.Error -> {
+                            println("error")
                             _state.update {
                                 it.copy(
                                     errorMessage = UiText.DynamicString(result.error.toString()),
@@ -68,8 +70,9 @@ class CharacterListViewModel(private val getCharactersUseCase: GetCharactersUseC
 
                         is ResponseWrapper.Success -> {
                             _state.update { state ->
+                                println("EL RESULTADO!!!!${result.data}")
                                 val combined =
-                                    state.results + (result.data as List<MarvelCharacter>).distinctBy { it.name }
+                                    state.results + (result.data as List<MarvelComic>).distinctBy { it.title }
                                 state.copy(
                                     results = combined,
                                     isLoading = false

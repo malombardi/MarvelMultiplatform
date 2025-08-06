@@ -9,6 +9,10 @@ import com.mlombardi.marvelcharacters.characters_list.presentation.detail.Charac
 import com.mlombardi.marvelcharacters.characters_list.presentation.list.CharacterListViewModel
 import com.mlombardi.marvelcharacters.comics_list.data.network.RemoteComicsDataSourceImpl
 import com.mlombardi.marvelcharacters.comics_list.domain.datasources.RemoteComicsDataSource
+import com.mlombardi.marvelcharacters.comics_list.domain.usecases.GetComicsUseCase
+import com.mlombardi.marvelcharacters.comics_list.presentation.SelectedComicViewModel
+import com.mlombardi.marvelcharacters.comics_list.presentation.detail.ComicDetailViewModel
+import com.mlombardi.marvelcharacters.comics_list.presentation.list.ComicListViewModel
 import com.mlombardi.marvelcharacters.core.data.errors.ErrorHandler
 import com.mlombardi.marvelcharacters.core.data.network.HttpClientFactory
 import com.mlombardi.marvelcharacters.core.domain.errors.IErrorHandler
@@ -30,4 +34,8 @@ val sharedModule = module {
     single { CharacterListViewModel(get()) }
     single { CharacterDetailViewModel() }
     single { SelectedCharacterViewModel() }
+    factory { GetComicsUseCase(get(), get(), get()) }
+    single { ComicListViewModel(get()) }
+    single { ComicDetailViewModel() }
+    single { SelectedComicViewModel() }
 }

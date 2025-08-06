@@ -23,6 +23,11 @@ import com.mlombardi.marvelcharacters.characters_list.presentation.detail.Charac
 import com.mlombardi.marvelcharacters.characters_list.presentation.detail.CharacterDetailViewModel
 import com.mlombardi.marvelcharacters.characters_list.presentation.list.CharacterListScreenRoot
 import com.mlombardi.marvelcharacters.characters_list.presentation.list.CharacterListViewModel
+import com.mlombardi.marvelcharacters.comics_list.presentation.SelectedComicViewModel
+import com.mlombardi.marvelcharacters.comics_list.presentation.detail.ComicDetailScreenRoot
+import com.mlombardi.marvelcharacters.comics_list.presentation.detail.ComicDetailViewModel
+import com.mlombardi.marvelcharacters.comics_list.presentation.list.ComicListScreenRoot
+import com.mlombardi.marvelcharacters.comics_list.presentation.list.ComicListViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -30,11 +35,11 @@ fun App() {
     MaterialTheme {
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = Route.CHARACTERS_LIST.name) {
+        NavHost(navController, startDestination = Route.COMICS_LIST.name) {
             composable(
                 Route.CHARACTERS_LIST.name,
                 exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() }) {
+                enterTransition = { fadeIn() }) {
                 val viewModel = koinViewModel<CharacterListViewModel>()
                 val selectedCharacterViewModel =
                     it.sharedKoinViewModel<SelectedCharacterViewModel>(navController)
@@ -48,13 +53,16 @@ fun App() {
                     onCharacterClicked = { character ->
                         selectedCharacterViewModel.onSelectCharacter(character)
                         navController.navigate(Route.CHARACTER_DETAILS.name)
+                    },
+                    onGoToComicsClicked = {
+                        navController.navigate(Route.COMICS_LIST.name)
                     }
                 )
             }
             composable(
                 Route.CHARACTER_DETAILS.name,
                 exitTransition = { fadeOut() },
-                popEnterTransition = { fadeIn() }) { it ->
+                enterTransition = { fadeIn() }) { it ->
                 val selectedCharacterViewModel =
                     it.sharedKoinViewModel<SelectedCharacterViewModel>(navController)
                 val viewModel = koinViewModel<CharacterDetailViewModel>()
@@ -73,7 +81,54 @@ fun App() {
                         navController.navigate(Route.CHARACTERS_LIST.name)
                     },
                 )
+            }
+            composable(
+                Route.COMICS_LIST.name,
+                exitTransition = {fadeOut()},
+                enterTransition = {fadeIn()}) { it->
 
+                println("comics composable")
+                val viewModel = koinViewModel<ComicListViewModel>()
+                val selectedComicViewModel =
+                    it.sharedKoinViewModel<SelectedComicViewModel>(navController)
+
+                LaunchedEffect(true) {
+                    selectedComicViewModel.onSelectComic(null)
+                }
+
+                ComicListScreenRoot(
+                    viewModel = viewModel,
+                    onComicClicked = { comic ->
+                        selectedComicViewModel.onSelectComic(comic)
+                        navController.navigate(Route.COMICS_DETAILS.name)
+                    },
+                    onGoToCharactersClicked = {
+                        navController.navigate(Route.CHARACTERS_LIST.name)
+                    }
+                )
+            }
+            composable(
+                Route.COMICS_DETAILS.name,
+                exitTransition = {fadeOut()},
+                enterTransition = {fadeIn()}) { it->
+                val selectedComicViewModel =
+                    it.sharedKoinViewModel<SelectedComicViewModel>(navController)
+                val viewModel = koinViewModel<ComicDetailViewModel>()
+                val selectedComic by selectedComicViewModel.selectedComic.collectAsStateWithLifecycle()
+
+                LaunchedEffect(selectedComic) {
+                    selectedComic?.let { comic ->
+                        viewModel.selectComic(comic)
+                    }
+                }
+
+                ComicDetailScreenRoot(
+                    viewModel = viewModel,
+                    onCloseClicked = {
+                        selectedComicViewModel.onSelectComic(null)
+                        navController.navigate(Route.COMICS_LIST.name)
+                    },
+                )
             }
         }
     }
