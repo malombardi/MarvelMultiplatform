@@ -22,20 +22,12 @@ import com.mlombardi.marvelcharacters.characters_list.domain.models.MarvelCharac
 fun CharacterListView(
     characters: List<MarvelCharacter>,
     onCharacterClicked: (MarvelCharacter) -> Unit,
-    onGoToComicsClicked: () -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyGridState
 ) {
     Column (
         modifier = Modifier.fillMaxSize()
     ) {
-        Button(
-            modifier = Modifier.align(Alignment.End).padding(16.dp),
-            onClick = { onGoToComicsClicked() }
-        ) {
-            Text("Comics")
-        }
-
         LazyVerticalGrid(
             state = scrollState,
             columns = GridCells.Adaptive(150.dp),

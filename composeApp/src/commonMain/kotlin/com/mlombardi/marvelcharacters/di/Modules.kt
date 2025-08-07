@@ -1,6 +1,7 @@
 package com.mlombardi.marvelcharacters.di
 
 import com.mlombardi.marvelcharacters.IODispatcher
+import com.mlombardi.marvelcharacters.app.AppViewModel
 import com.mlombardi.marvelcharacters.characters_list.data.network.RemoteCharactersDataSourceImpl
 import com.mlombardi.marvelcharacters.characters_list.domain.datasources.RemoteCharactersDataSource
 import com.mlombardi.marvelcharacters.characters_list.domain.usecases.GetCharactersUseCase
@@ -34,6 +35,7 @@ val sharedModule = module {
     single { CharacterListViewModel(get()) }
     single { CharacterDetailViewModel() }
     single { SelectedCharacterViewModel() }
+    single { AppViewModel() }
     factory { GetComicsUseCase(get(), get(), get()) }
     single { ComicListViewModel(get()) }
     single { ComicDetailViewModel() }

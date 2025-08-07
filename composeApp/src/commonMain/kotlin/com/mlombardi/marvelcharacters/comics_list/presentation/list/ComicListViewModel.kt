@@ -23,9 +23,6 @@ class ComicListViewModel(private val getComicsUseCase: GetComicsUseCase) : Marve
             is ComicsListAction.OnComicClicked -> {
             }
 
-            is ComicsListAction.OnGoToCharactersClicked -> {
-            }
-
             is ComicsListAction.OnListScrolled -> {
                 _state.update {
                     it.copy(

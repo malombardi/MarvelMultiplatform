@@ -22,7 +22,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ComicListScreenRoot(
     viewModel: ComicListViewModel = koinViewModel(),
     onComicClicked: (MarvelComic) -> Unit,
-    onGoToCharactersClicked: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -47,11 +46,6 @@ fun ComicListScreenRoot(
                 is ComicsListAction.OnComicClicked -> {
                     onComicClicked(action.comic)
                 }
-
-                is ComicsListAction.OnGoToCharactersClicked -> {
-                    onGoToCharactersClicked()
-                }
-
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -74,9 +68,6 @@ private fun ComicListScreen(
             comics = state.results,
             onComicClicked = {
                 onAction(ComicsListAction.OnComicClicked(it))
-            },
-            onGoToCharactersClicked = {
-                onAction(ComicsListAction.OnGoToCharactersClicked)
             },
             scrollState = scrollState
         )

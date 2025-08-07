@@ -23,9 +23,6 @@ class CharacterListViewModel(private val getCharactersUseCase: GetCharactersUseC
             is CharactersListAction.OnCharacterClicked -> {
             }
 
-            is CharactersListAction.OnGoToComicsClicked -> {
-            }
-
             is CharactersListAction.OnListScrolled -> {
                 _state.update {
                     it.copy(
