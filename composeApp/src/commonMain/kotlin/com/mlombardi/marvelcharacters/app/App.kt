@@ -72,7 +72,6 @@ fun App() {
                 selectedTabIndex = state.selectedTabIndex,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
-                    .widthIn(max = 700.dp)
                     .fillMaxWidth(),
                 containerColor = White,
                 indicator = { tabPositions ->
